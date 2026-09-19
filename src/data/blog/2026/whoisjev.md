@@ -55,7 +55,7 @@ That's it. There's no "write the reply to the customer", no "explain your reason
 
 Here's the part that makes engineers raise an eyebrow. Autoregressive LLMs generate output token by token, with each new token conditioned on the input and the tokens already generated. A token can be a word, part of a word, or punctuation. Jev instead evaluates a predefined answer space and returns typed results through parallel sampling. It doesn't have to generate a text response one token at a time.
 
-<img width="800" height="450" alt="Comparison between generating tokens in sequence and typed outputs returned in parallel" src="/assets/jev-geracao-vs-decisao.webp" />
+<img width="800" height="446" alt="Comparison between generating tokens in sequence and typed outputs returned in parallel" src="/assets/jev-geracao-vs-decisao.webp" />
 
 At launch, [TypeSafe reported](https://typesafe.ai/blog/introducing-system-one-models-and-jev) 70 to 500 milliseconds end to end and a price of $0.042 per million input tokens, with no output-token charge. Those latency figures are vendor measurements, generally taken from the US West Coast, rather than a guarantee for your deployment. The output still exists; it just isn't billed as generated text.
 
