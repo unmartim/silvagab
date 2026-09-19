@@ -29,7 +29,7 @@ Picture a customer support inbox and the message "I was charged twice on my card
 
 Jev starts from a predefined answer space: billing, sales or support; low, medium or high urgency; human review or no human review. It returns typed answers with probabilities and confidence estimates, without generating an explanation first. Your code can use those results to route the ticket. The output format is constrained; the decision can still be wrong.
 
-<img width="800" height="446" alt="Diagram comparing a flow where the LLM does everything with a flow where the LLM handles the conversation and Jev makes the decision" src="/assets/jev-arquitetura.webp" />
+<img width="800" height="450" alt="Diagram comparing a flow where the LLM does everything with a flow where the LLM handles the conversation and Jev makes the decision" src="/assets/jev-arquitetura.webp" />
 
 ### ChatGPT generates. Jev decides.
 
@@ -65,7 +65,7 @@ There are independent measurements too. A [reproducible benchmark of agent tool-
 
 This, for me, is the most interesting claim in the package: confidence that can support a business rule. A system could act when the evidence is strong enough and send uncertain cases to review. But the threshold has to come from your data and the cost of mistakes. A routing mistake and an incorrectly blocked payment deserve different policies.
 
-<img width="800" height="446" alt="Flow where the confidence returned by Jev decides whether the system executes the action or sends it to review" src="/assets/jev-confianca.webp" />
+<img width="800" height="450" alt="Flow where the confidence returned by Jev decides whether the system executes the action or sends it to review" src="/assets/jev-confianca.webp" />
 
 Then you ask me, "but an LLM also gives me a confidence number if I ask for one", and it does. The number alone proves very little. A model saying it's confident is not the same as a probability estimate tested against observed outcomes. TypeSafe argues that training specifically for calibrated decisions improves this, but you still need to check it on your own task.
 
