@@ -9,11 +9,12 @@ tags:
   - Automation
 description: "Jev doesn't want to talk to you. It wants to decide things. And that's far more interesting than it sounds, including the parts nobody puts in their LinkedIn posts."
 ---
-You've probably seen one or two posts from some tech guy saying "Jev did this in 1 second", "oh, I solved that with Jev", "Jev something something", and you just sat there with that face of someone who doesn't want to ask, thinking: who the hell is Jev? Relax, let's take it slow. If you haven't spent the last few years in a cave, you know ChatGPT, Claude, Gemini, and the one-line summary here is that Jev is not like them.
 
-It was built by TypeSafe AI, a San Francisco company that came out of stealth on September 15th, 2026 with [$40 million in seed funding led by DCVC](https://www.finsmes.com/2026/09/typesafe-ai-raises-40m-in-seed-funding.html). And Jev, at the end of the day, is a classifier. Yes, a classifier, that thing you learned about in your second machine learning class and found incredibly boring. And I know exactly what you're thinking: "okay Gabriel, so why did this become the new wow of tech influencers?". Let me tell you.
+You've probably seen a few tech posts saying "Jev did this in one second", "I solved that with Jev", "Jev something something", and thought: who the hell is Jev? Fair question. If you know ChatGPT, Claude or Gemini, you already have a useful starting point. Jev is built for a different job.
 
-The announcement came straight from the creator himself, Diogo Almeida, in a post that passed 36 million views in a few days. Worth watching before you keep going, because it's the primary source for everything below.
+It was built by TypeSafe AI, a San Francisco company that came out of stealth on September 15th, 2026 with [$40 million in seed funding led by DCVC](https://www.finsmes.com/2026/09/typesafe-ai-raises-40m-in-seed-funding.html). At first glance, Jev sounds like a classifier. Yes, the thing from your second machine learning class that probably didn't seem destined for a viral launch. It also handles ratings and yes-or-no probabilities, but the appeal is the same: turn messy input into decisions software can use. So why is everyone suddenly excited about that?
+
+The announcement came from TypeSafe founder Diogo Almeida. The video is worth watching before you keep going: it lays out the company's pitch, which we'll separate from the evidence below.
 
 <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark" data-align="center"><p lang="en" dir="ltr">After co-inventing ChatGPT, I kept asking myself: why have superhuman chat models not led to AGI?</p>&mdash; Diogo Almeida (@CompleteSkeptic) <a href="https://twitter.com/CompleteSkeptic/status/2099925682726002904">September 15, 2026</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -24,19 +25,19 @@ Post and video by [Diogo Almeida](https://x.com/CompleteSkeptic), founder of Typ
 
 It doesn't want to write your email, produce an essay about the French Revolution or come up with an Instagram caption. It wants to **decide things**, which sounds a lot less impressive until you stop and count the absurd number of decisions a piece of software makes every single day.
 
-Picture a customer support inbox and the message "I was charged twice on my card and I want my money back". You could throw that at some ChatGPT and ask it to "analyze this message, figure out the customer's intent, which department should handle it, how urgent it is, and give it all back to me in JSON", and it would probably do it. Nicely, even. There's just one detail: ChatGPT is a model built to **generate text**, and even when you ask for JSON it's still producing token after token, trying to assemble the answer you asked for, while you sit there hoping the key doesn't come back misspelled on deploy day.
+Picture a customer support inbox and the message "I was charged twice on my card and I want my money back". You could ask an LLM to identify the intent, department and urgency, then return JSON. It would probably do a decent job. And modern APIs offer schema-constrained structured outputs, so a misspelled JSON key isn't the central problem here. The questions are whether the decision is correct, how much it costs, how long it takes, and whether you can trust its confidence estimate.
 
-Jev starts from a different idea. You state upfront what the possible decisions are: is the department billing, sales or support? Is urgency low, medium or high? Does this need a human, yes or no? And it just decides, without writing "after carefully analyzing the user's message, I believe that...". The answer is basically `department = billing (98%)`, `urgency = high (91%)`, `needs_human = yes (74%)`, and this is where it starts getting interesting.
+Jev starts from a predefined answer space: billing, sales or support; low, medium or high urgency; human review or no human review. It returns typed answers with probabilities and confidence estimates, without generating an explanation first. Your code can use those results to route the ticket. The output format is constrained; the decision can still be wrong.
 
 <img width="800" height="446" alt="Diagram comparing a flow where the LLM does everything with a flow where the LLM handles the conversation and Jev makes the decision" src="/assets/jev-arquitetura.webp" />
 
 ### ChatGPT generates. Jev decides.
 
-That's probably the simplest way to understand the difference. ChatGPT, Claude, Gemini and the other LLMs were built around language and they're absurdly good when you need a machine to **talk**. Jev was built thinking about what happens when you need a machine to **choose**.
+That's the useful shorthand, with one caveat: LLMs can classify and make decisions too. ChatGPT, Claude and Gemini are general-purpose language models. Jev focuses on choosing among predefined possibilities. The practical question is whether that specialization buys you better latency, cost or uncertainty estimates for your task.
 
 And choosing shows up in pretty much any software. Which lead is most likely to buy? Does this transaction look like fraud? Which agent should I route this customer to? Is this comment spam? Is this user about to churn? Can this action run on its own or does it need human review? All of that is a decision, and until now a lot of people were using giant LLMs to solve that kind of problem, which is a bit like hiring an award-winning novelist to fill in a multiple choice test. It works, but maybe you don't need the novelist.
 
-TypeSafe calls this category **System One Models**, a direct reference to the System 1 that Daniel Kahneman describes in _Thinking, Fast and Slow_: fast, automatic, intuitive decisions, as opposed to System 2, slow and deliberate. Their thesis is that the entire industry spent the last few years building System 2 and selling it as the answer to everything.
+TypeSafe calls this category **System One Models**, borrowing the System 1 and System 2 distinction popularized by Daniel Kahneman in _Thinking, Fast and Slow_: fast, intuitive judgments versus slower, deliberate reasoning. It's a useful analogy for the product's focus, not a literal description of how these models think.
 
 If you want the 45-second version of all this, Matija Sosic made a summary that explains the core idea better than the official video, and he says so himself in the post.
 
@@ -46,41 +47,41 @@ Post and video by [Matija Sosic](https://x.com/MatijaSosic).
 
 ### In practice, it only answers three kinds of question
 
-[TypeSafe's documentation](https://docs.typesafe.ai/concepts/system-one) is pretty lean about this, and honestly that restraint is already a point in their favor. The first primitive is `Choice`, which picks one option out of a list of up to 255 items: you describe each option, say "billing" meaning charges, refunds and invoices, and "technical" meaning bugs, errors and outages, and it picks one. The second is `Score`, which places something on a spectrum of 2 to 10 levels, like customer frustration going from "calm" all the way to "very angry". The third is `Noul`, which returns a probability from 0 to 1 for a yes or no question, something like "is the customer explicitly asking for a refund?".
+[TypeSafe's documentation](https://docs.typesafe.ai/concepts/system-one) is pretty lean about this, and honestly that restraint is already a point in their favor. The first primitive is `Choice`, which picks one option out of a list of up to 255 items: you describe each option, say "billing" meaning charges, refunds and invoices, and "technical" meaning bugs, errors and outages, and it picks one. The second is `Score`, which returns a rating on a scale defined by 2 to 10 levels (the rating can fall between levels), like customer frustration going from "calm" all the way to "very angry". The third is `Noul`, which returns a probability from 0 to 1 for a yes or no question, something like "is the customer explicitly asking for a refund?".
 
 That's it. There's no "write the reply to the customer", no "explain your reasoning". Input is text, output is a typed value with a probability, and the company itself describes the model as a frontier intelligence function call: unstructured state in, typed probabilistic decision out.
 
 ### Okay, so why is it so fast?
 
-Here's the part that makes engineers raise an eyebrow. Models like ChatGPT produce answers token by token, where each word depends on the previous one, which depends on the previous one, until it's done. That's called autoregressive generation, and it's the reason you sit there watching the little cursor blink while you contemplate life. Jev gives that up: since the answer space was defined before the question, it doesn't need to write anything, it only needs to spread probability across options that already exist.
+Here's the part that makes engineers raise an eyebrow. Autoregressive LLMs generate output token by token, with each new token conditioned on the input and the tokens already generated. A token can be a word, part of a word, or punctuation. Jev instead evaluates a predefined answer space and returns typed results through parallel sampling. It doesn't have to generate a text response one token at a time.
 
 <img width="800" height="446" alt="Comparison between generating tokens in sequence and typed outputs returned in parallel" src="/assets/jev-geracao-vs-decisao.webp" />
 
-The numbers TypeSafe publishes are these: 70 to 500 milliseconds end to end, and $0.042 per million input tokens, with output tokens free, which makes sense when there's basically no output. The company claims to be [up to 100 times faster and cheaper](https://techstartups.com/2026/09/16/typesafe-ai-an-ai-startup-founded-by-chatgpt-co-inventor-emerges-from-stealth-with-40m-to-build-ai-thats-100x-faster-and-cheaper/) than frontier models on this kind of task, and a few examples from launch week give you the scale of it. One site classified 1,018 research papers for $0.08, against the $3.99 it spent just generating the summaries with a regular LLM. A browser agent booked flights in 7.1 seconds for $0.0039. In a _computer use_ loop, each decision came out at $0.0002 against $0.032 with a frontier model.
+At launch, [TypeSafe reported](https://typesafe.ai/blog/introducing-system-one-models-and-jev) 70 to 500 milliseconds end to end and a price of $0.042 per million input tokens, with no output-token charge. Those latency figures are vendor measurements, generally taken from the US West Coast, rather than a guarantee for your deployment. The output still exists; it just isn't billed as generated text.
 
-That's not a 20% difference. That's an order of magnitude, and that's what changes the kind of thing you allow yourself to automate.
+There are independent measurements too. A [reproducible benchmark of agent tool-call risk](https://github.com/themsquared/jev-benchmark), run on September 17, tested 60 human-labeled cases. Both Jev variants got 55 right, or 91.7%. Median latency was about 422 milliseconds for `jev-latest` and 379 milliseconds for `jev-preview`, measured from a residential connection in Portland. Useful evidence that the latency is plausible; far too small and narrow a test to settle overall quality or prove a general advantage over LLMs.
 
 ### The part nobody posts about: calibrated confidence
 
-This one, for me, is the most underrated thing in the whole package. Jev doesn't just say "it's fraud", it says there's 97% confidence that this is fraud, and that lets you write an actual business rule: above 95% block it automatically, between 70% and 95% send it to human review, below 70% let it through.
+This, for me, is the most interesting claim in the package: confidence that can support a business rule. A system could act when the evidence is strong enough and send uncertain cases to review. But the threshold has to come from your data and the cost of mistakes. A routing mistake and an incorrectly blocked payment deserve different policies.
 
 <img width="800" height="446" alt="Flow where the confidence returned by Jev decides whether the system executes the action or sends it to review" src="/assets/jev-confianca.webp" />
 
-Then you ask me "but ChatGPT also gives me a confidence number if I ask for one", and it does. The problem is that number tends to be rhetoric, not statistics. TypeSafe points out that even when you explicitly ask for a confidence estimate, LLMs tend to be systematically overconfident, which makes total sense, because they were trained with RLHF, meaning trained to please humans in a conversation, not to get a probability right.
+Then you ask me, "but an LLM also gives me a confidence number if I ask for one", and it does. The number alone proves very little. A model saying it's confident is not the same as a probability estimate tested against observed outcomes. TypeSafe argues that training specifically for calibrated decisions improves this, but you still need to check it on your own task.
 
-TypeSafe says it trained Jev with a variation they call RLCD, _Reinforcement Learning for Calibrated Decisions_, optimizing specifically so the number actually means something. Calibration means that, across all the answers where the model said 90%, roughly 90% should be correct. And there's an important asterisk sitting in their own documentation: calibration is a property of the set, not a guarantee for any individual answer. That's not a detail, that's the difference between designing a threshold and believing in magic.
+TypeSafe calls its training approach RLCD, _Reinforcement Learning for Calibrated Decisions_. The aim is for confidence to match observed correctness: among predictions assigned roughly 90% confidence, about 90% should be right. As [its documentation explains](https://docs.typesafe.ai/concepts/system-one), that is a property of groups of predictions, not a guarantee for any one answer. You need enough labeled examples to assess it, including the cases your system would actually automate.
 
 ### Now the boring part, which is where I think the value lives
 
 If the article stopped here it would be a LinkedIn post, and I already have a LinkedIn profile for that. So let's go to the first problem, which is the benchmark.
 
-TypeSafe reports 67.8% accuracy on its internal benchmark of four production workflows, against 66.8% for GPT-5.6 Luna, at $0.0004 per case versus $0.0033, and 0.4 seconds versus 12.9 seconds. Look at the accuracy again: one percentage point. Speed and cost are crushing, but intelligence is a technical tie. And there's something more delicate, because [the answer key for that benchmark was generated by other models](https://dev.to/gabrielanhaia/jev-beat-gpt-luna-by-1-point-gpt-6-and-claude-wrote-the-answer-key-314k), an average of the responses from GPT-6 Astra and Claude Fable 5.1 at high thinking. Which means it isn't measuring correctness against reality, it's measuring agreement with two frontier models, and wherever both of them are wrong together, whoever gets it right gets penalized.
+TypeSafe's launch evaluation reports 67.8% aggregate accuracy for Jev versus 66.8% for GPT-5.6 Luna, with lower reported cost and latency for Jev. Those accuracy scores are close on this evaluation. They don't establish equivalent general capability or a statistically significant difference. More importantly, [the reference labels come from GPT-6 Astra and Claude Fable 5.1](https://evals.typesafe.ai/), rather than human-verified outcomes. The benchmark measures agreement with that reference, which can itself be wrong.
 
-TypeSafe acknowledges that bias in the publication itself, which is honest of them, but it's still a number you shouldn't take into a meeting as revealed truth. And when you look workflow by workflow the average disappears: on customer service Jev is 2.3 points behind, and on invoice processing it's 17.3 points behind. Averages make terrible advisors.
+TypeSafe makes the methodology public, which helps. But an average over four workflows is still a limited view, and the aggregate can hide weaker results on individual tasks. Before bringing the headline into a meeting, inspect the workflow that resembles yours, the reference labels and the model settings. Averages make terrible advisors.
 
-The second problem is that it reads literally, answering exactly what you wrote and not what you meant, so an ambiguous instruction becomes an ambiguous decision, at 94% confidence and with the face of something that's sure. The third is that it has known holes: it doesn't count well, it struggles with dates, it only takes text, no image, audio or video, and it gets **worse** when you stuff the context with irrelevant information, which is the exact opposite of the "throw everything in the prompt and pray" reflex.
+The second problem is question design. A constrained answer space doesn't rescue an ambiguous instruction: you still have to specify what each option means and which evidence matters. The third is scope. Jev currently takes text, not images, audio or video. For exact arithmetic, date calculations or policy checks that you can express deterministically, keep the logic in code. And give the model relevant context, rather than hoping a larger prompt will fix an unclear task.
 
-And the fourth, the most uncomfortable of them all, is that a good chunk of the gain may not be the model. When you break a task down into well-defined structured questions, every model improves, so maybe half of the Jev effect is really the effect of finally not asking an AI to do seven things at once inside a 900-word prompt. That doesn't invalidate Jev, it just reminds you that your workflow design is probably worth more than your model choice. Remember what I said in the last article about 80% of the job being unglamorous data engineering? Yeah, still true.
+And the fourth, the most uncomfortable one, is that part of the improvement may come from workflow design itself. In TypeSafe's evaluation, every tested model improved when the task was broken into structured questions and code, compared with its single-prompt version. That doesn't invalidate Jev. It means you should compare it against an LLM inside the same well-designed workflow, not against the sprawling prompt you've been meaning to clean up since March.
 
 ### Jev didn't come to kill ChatGPT
 
@@ -96,13 +97,15 @@ TypeSafe's entire bet is that, applied to AI. If making a decision with artifici
 
 ### What I would do in your position
 
-If you're a dev or you work with automation, the sanity test is simple and fits in an afternoon. Take one decision you currently solve by calling an expensive LLM, ticket triage, moderation, routing, lead scoring, any of them. Build a set of 50 to 100 cases labeled by humans, not by another model, which is the step almost nobody does and the only one that actually matters. Run Jev against those cases and look at accuracy, latency and cost.
+If you're a dev or you work with automation, start with a feasibility test. Pick one decision you currently handle with an LLM: ticket triage, moderation, routing or lead scoring. Assemble 50 to 100 human-labeled cases, including ambiguous inputs and expensive mistakes. Run Jev and your current model with the same information and decision rules. Compare accuracy, latency and cost, and inspect where each one fails.
 
-But mostly look at one thing: does the confidence work as a threshold? If the answers at 90% land near 90% correct, you just gained an automation lever. If it doesn't, you gained a fast classifier, which is not nothing, but it's a different conversation. Only then decide, because a vendor benchmark never predicted your result, not with Jev, not with anything else.
+That first batch can reveal obvious problems. It cannot reliably validate calibration, especially once you split it by confidence level or type of case. Before using confidence to automate consequential actions, collect a larger, representative held-out set and measure the error rate and review rate at your proposed thresholds. Keep the data used to tune those thresholds separate from the data used to assess them. The useful question is how much work you can safely automate at an acceptable error rate. A vendor benchmark can't answer that for you.
 
 P.S.: I left a lot out. Actual non-autoregressive architecture, how RLCD works under the hood, and the much nerdier debate about whether "System One Model" is a new category or a very good classifier with very good marketing. If this gets a conversation going, I'll write part 2.
 
 ### Sources
+
+[Workflow evals](https://evals.typesafe.ai/), TypeSafe evaluation methodology and results
 
 [Introducing System One Models & Jev](https://typesafe.ai/blog/introducing-system-one-models-and-jev), on the TypeSafe AI blog
 
