@@ -22,7 +22,10 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
 <Layout>
   <Header />
   <main id="main-content" data-layout="index">
-    <section id="hero" class="pt-8 pb-6 flex flex-col-reverse gap-8 lg:flex-row lg:items-center lg:justify-between">
+    <section
+      id="hero"
+      class="flex flex-col-reverse gap-8 pt-8 pb-6 lg:flex-row lg:items-center lg:justify-between"
+    >
       <div class="flex-1">
         <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
           All good?
@@ -43,18 +46,24 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
         </a>
 
         <p>
-        Gabriel is a Brazilian guy just trying to survive the AI era. After spending time at Itaú Unibanco and now at Mia, he realized that 90% of Artificial Intelligence is just a glorified IF formula.
+          Gabriel is a Brazilian guy just trying to survive the AI era. After
+          spending time at Itaú Unibanco and now at Mia, he realized that 90% of
+          Artificial Intelligence is just a glorified IF formula.
         </p>
         <p class="mt-2">
-          I'm more corporate on LinkedIn. So, if you want to read the exact same thoughts but wrapped in synergy, agility, and fancy buzzwords, my socials are below.
+          I'm more corporate on LinkedIn. So, if you want to read the exact same
+          thoughts but wrapped in synergy, agility, and fancy buzzwords, my
+          socials are below.
         </p>
         <SocialsLinks />
       </div>
-      <div class="flex-1 flex justify-center lg:justify-end">
-        <img 
-          src="/assets/erasebg-transformed (1) (2).png" 
-          alt="Gabriel Silva" 
-          class="rounded-lg w-full max-w-sm drop-shadow-lg"
+      <div class="flex flex-1 justify-center lg:justify-end">
+        <img
+          src="/assets/gabriel-avatar.webp"
+          alt="Gabriel Silva"
+          width="500"
+          height="500"
+          class="w-full max-w-sm rounded-lg drop-shadow-lg"
         />
       </div>
     </section>

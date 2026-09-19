@@ -41,9 +41,15 @@ const isActive = (path: string) => {
     >
       <a
         href="/"
-        class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none flex items-center gap-2"
+        class="absolute flex items-center gap-2 py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"
       >
-        <img src="/assets/erasebg-transformed (3).png" alt="Logo" width="32" height="32" class="rounded" />
+        <img
+          src="/assets/erasebg-transformed (3).png"
+          alt="Logo"
+          width="32"
+          height="32"
+          class="rounded"
+        />
         {SITE.title}
       </a>
       <nav
@@ -80,8 +86,12 @@ const isActive = (path: string) => {
             </a>
           </li>
           <li class="col-span-2">
-            <a href="/about" class:list={{ "active-nav": isActive("/about") }}>
-              About
+            <a
+              href="https://buymeacoffee.com/silvagab"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Buy me a coffee
             </a>
           </li>
           {
