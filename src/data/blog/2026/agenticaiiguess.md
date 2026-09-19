@@ -6,9 +6,10 @@ featured: false
 draft: false
 tags:
   - AI
-  -  Data Engineering
+  - Data Engineering
 description: "First article, talking about agentic ai."
 ---
+
 Years ago, before any of this was 'AI', I was building a small automation flow at work. The use case: an external team, in another country, would email us asking for the KYC data of a specific client. The flow would grab it from the database and reply. Simple enough.
 
 I was testing it before pushing it live, using my own inbox as the destination. Good thing I did. I forgot to configure a filter, and instead of pulling the data for one client, it started pulling the data for every single client in the database. One by one. Thousands of emails, landing straight in my inbox before I could even react.
@@ -117,8 +118,9 @@ The brain finally got arms. Mine just happened to reach for the wrong send butto
 
 So stop worrying about what tool will write your next email, and start figuring out which parts of your operation you're actually willing to hand over to the bots.
 
-Because delegating work is easy. 
+Because delegating work is easy.
 Delegating responsibility isn't.
 
---- 
+---
+
 P.S. Yes, I skipped tokens, temperature, rate limits, etc. on purpose. This one was about the "why." The "how" is coming in a future article, once I stop being lazy and actually write it.

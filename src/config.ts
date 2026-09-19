@@ -12,9 +12,9 @@ export const SITE = {
   showArchives: true,
   showBackButton: true,
   editPost: {
-  enabled: false,
-  text: "Edit page",
-  url: "https://github.com/unmartim/gabrielpaper/edit/main/", // Link do seu repositório
+    enabled: false,
+    text: "Edit page",
+    url: "https://github.com/unmartim/gabrielpaper/edit/main/", // Link do seu repositório
   },
   dynamicOgImage: true,
   dir: "ltr",
