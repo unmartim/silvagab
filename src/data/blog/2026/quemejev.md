@@ -28,7 +28,7 @@ Imagina um atendimento ao cliente e a mensagem "fui cobrado duas vezes no meu ca
 
 O Jev parte de outra ideia. Você já diz, antes, quais são as decisões possíveis: setor é financeiro, comercial ou suporte? Urgência é baixa, média ou alta? Precisa de humano, sim ou não? E ele simplesmente decide, sem escrever "após analisar cuidadosamente a mensagem do usuário, acredito que...". A resposta é basicamente `setor = financeiro (98%)`, `urgência = alta (91%)`, `precisa_humano = sim (74%)`, e é aqui que começa a ficar interessante.
 
-<img width="800" height="450" alt="Diagrama comparando um fluxo concentrado no LLM com um fluxo em que o LLM cuida da conversa e o Jev decide" src="/assets/jev-arquitetura.svg" />
+<img width="800" height="446" alt="Diagrama comparando um fluxo concentrado no LLM com um fluxo em que o LLM cuida da conversa e o Jev decide" src="/assets/jev-arquitetura.webp" />
 
 ### ChatGPT gera. Jev decide.
 
@@ -54,7 +54,7 @@ A [documentação da TypeSafe](https://docs.typesafe.ai/concepts/system-one) é 
 
 Aqui está a parte que faz engenheiro levantar a sobrancelha. Modelos como o ChatGPT geram resposta token por token, onde uma palavra depende da anterior, que depende da anterior, até acabar. Isso se chama geração autorregressiva, e é ela que faz você ficar olhando o cursorzinho piscando enquanto pensa na vida. O Jev abre mão disso: como o espaço de respostas já foi definido antes da pergunta, ele não precisa escrever nada, precisa apenas distribuir probabilidade entre opções que já existem.
 
-<img width="800" height="450" alt="Comparação entre geração de tokens em sequência e saídas tipadas devolvidas em paralelo" src="/assets/jev-geracao-vs-decisao.svg" />
+<img width="800" height="446" alt="Comparação entre geração de tokens em sequência e saídas tipadas devolvidas em paralelo" src="/assets/jev-geracao-vs-decisao.webp" />
 
 Os números que a TypeSafe publica são estes: 70 a 500 milissegundos de ponta a ponta, e US$ 0,042 por milhão de tokens de entrada, com tokens de saída de graça, o que faz sentido quando praticamente não existe saída. A empresa fala em ser [até 100 vezes mais rápida e mais barata](https://techstartups.com/2026/09/16/typesafe-ai-an-ai-startup-founded-by-chatgpt-co-inventor-emerges-from-stealth-with-40m-to-build-ai-thats-100x-faster-and-cheaper/) que modelos de fronteira em tarefas desse tipo, e alguns exemplos da semana de lançamento dão a dimensão da coisa. Um site classificou 1.018 artigos científicos por US$ 0,08, contra US$ 3,99 que ele gastou só pra gerar os resumos com um LLM normal. Um agente de browser reservou voos em 7,1 segundos por US$ 0,0039. Em loop de _computer use_, cada decisão saiu por US$ 0,0002 contra US$ 0,032 com um modelo de fronteira.
 
@@ -64,7 +64,7 @@ Isso não é diferença de 20%. É diferença de ordem de grandeza, e é isso qu
 
 Essa, pra mim, é a característica mais subestimada do troço todo. O Jev não diz só "é fraude", ele diz que há 97% de confiança de que aquilo é fraude, e aí você consegue escrever uma regra de negócio de verdade: acima de 95% bloqueia automaticamente, entre 70% e 95% manda pra análise humana, abaixo de 70% deixa passar.
 
-<img width="800" height="450" alt="Fluxo em que a confiança devolvida pelo Jev define se o sistema executa a ação ou manda para revisão" src="/assets/jev-confianca.svg" />
+<img width="800" height="446" alt="Fluxo em que a confiança devolvida pelo Jev define se o sistema executa a ação ou manda para revisão" src="/assets/jev-confianca.webp" />
 
 Aí você me pergunta "mas o ChatGPT também me dá um número de confiança se eu pedir", e dá mesmo. O problema é que esse número costuma ser retórica, não estatística. A própria TypeSafe aponta que, mesmo quando você pede uma estimativa de confiança, LLMs tendem a ser sistematicamente superconfiantes, o que faz todo sentido, porque eles foram treinados com RLHF, ou seja, pra agradar humanos numa conversa, e não pra acertar uma probabilidade.
 
